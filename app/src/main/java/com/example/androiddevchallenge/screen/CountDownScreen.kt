@@ -1,3 +1,18 @@
+/*
+ * Copyright 2021 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.example.androiddevchallenge.screen
 
 import android.os.CountDownTimer
@@ -5,8 +20,20 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ProgressIndicatorDefaults
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -24,13 +51,12 @@ import androidx.compose.ui.unit.sp
 import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.ui.theme.shapes
 
-
 @ExperimentalAnimationApi
 @Composable
 fun CountDownScreen() {
     val countMinutes = remember { mutableStateOf(0) }
     val countSeconds = remember { mutableStateOf(0) }
-    val showDuringProgress = remember { mutableStateOf(false)}
+    val showDuringProgress = remember { mutableStateOf(false) }
     val maxMilliSeconds = remember { mutableStateOf(0L) }
     val steps = remember { mutableStateOf(0L) }
 
@@ -85,7 +111,7 @@ fun CountDownScreen() {
                     onCountChange = {
                         countMinutes.value = it
                         maxMilliSeconds.value = getProgressInSeconds(mins = countMinutes.value, secs = countSeconds.value).toLong()
-                        steps .value= maxMilliSeconds.value/1000
+                        steps.value = maxMilliSeconds.value / 1000
                     },
                 )
                 Spacer(modifier = Modifier.padding(16.dp))
@@ -95,7 +121,7 @@ fun CountDownScreen() {
                     onCountChange = {
                         countSeconds.value = it
                         maxMilliSeconds.value = getProgressInSeconds(mins = countMinutes.value, secs = countSeconds.value).toLong()
-                        steps.value = maxMilliSeconds.value/1000
+                        steps.value = maxMilliSeconds.value / 1000
                     },
                 )
             }
@@ -127,7 +153,7 @@ fun resetTimer(
     countSeconds.value = 0
 
     progress.value = 0.0001f
-    showDuringProgress.value =  false
+    showDuringProgress.value = false
 }
 
 @ExperimentalAnimationApi
@@ -137,10 +163,10 @@ fun TimeSelectorComponent(
     count: Int,
     onCountChange: (Int) -> Unit
 ) {
-    val canClickPlus = remember { mutableStateOf(true)}
-    val canClickMinus = remember { mutableStateOf(false)}
+    val canClickPlus = remember { mutableStateOf(true) }
+    val canClickMinus = remember { mutableStateOf(false) }
 
-    val maxPlus = when(timeUnit) {
+    val maxPlus = when (timeUnit) {
         TimeUnit.Minutes -> MAX_MINUTES
         TimeUnit.Seconds -> MAX_SECONDS
     }
@@ -150,7 +176,7 @@ fun TimeSelectorComponent(
         verticalArrangement = Arrangement.Center,
         modifier = Modifier.height(300.dp)
     ) {
-        val type = when(timeUnit) {
+        val type = when (timeUnit) {
             TimeUnit.Minutes -> "Min"
             TimeUnit.Seconds -> "Sec"
         }
@@ -181,7 +207,7 @@ fun TimeSelectorComponent(
                         operations = Operations.Plus,
                         count = count,
                         onCountChange = {
-                          onCountChange.invoke(it)
+                            onCountChange.invoke(it)
                         },
                         canClickMinus = canClickMinus,
                         canClickPlus = canClickPlus,
@@ -214,7 +240,6 @@ fun TimeSelectorComponent(
                         canClickPlus = canClickPlus,
                         maxPlus = maxPlus
                     )
-
                 },
                 modifier = Modifier
                     .height(30.dp)
@@ -231,7 +256,6 @@ fun TimeSelectorComponent(
     }
 }
 
-
 fun getProgressInSeconds(mins: Int, secs: Int): Int =
     ((mins * 60) + secs) * 1000
 
@@ -242,12 +266,12 @@ fun handleTime(
     canClickMinus: MutableState<Boolean>,
     canClickPlus: MutableState<Boolean>,
     maxPlus: Int
-    ) {
-    when(operations) {
+) {
+    when (operations) {
         Operations.Minus -> {
             canClickMinus.value = count - 1 > 0
             if (count > 0) {
-                onCountChange.invoke(count- 1)
+                onCountChange.invoke(count - 1)
             }
             canClickPlus.value = count - 1 < maxPlus
         }
@@ -264,15 +288,15 @@ fun handleTime(
 const val MAX_MINUTES = 99
 const val MAX_SECONDS = 60
 
-fun makeTimeText(value: Int) : String =
+fun makeTimeText(value: Int): String =
     if (value < 10) "0$value" else value.toString()
 
 sealed class Operations {
-    object Plus: Operations()
-    object Minus: Operations()
+    object Plus : Operations()
+    object Minus : Operations()
 }
 
 sealed class TimeUnit {
-    object Seconds: TimeUnit()
-    object Minutes: TimeUnit()
+    object Seconds : TimeUnit()
+    object Minutes : TimeUnit()
 }
