@@ -7,7 +7,7 @@
 
 ## :scroll: Description
 <!--- Describe your app in one or two sentences -->
-This a count down timer that you can input minutes and seconds and then see a progress bar with the time remaining.
+This is a count down timer that you can input minutes and seconds and then see a progress bar with the time remaining.
 
 
 ## :bulb: Motivation and Context
