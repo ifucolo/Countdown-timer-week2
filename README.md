@@ -7,11 +7,13 @@
 
 ## :scroll: Description
 <!--- Describe your app in one or two sentences -->
+This a count down timer that you can input minutes and seconds and then see a progress bar with the time remaining.
 
 
 ## :bulb: Motivation and Context
 <!--- Optionally point readers to interesting parts of your submission. -->
 <!--- What are you especially proud of? -->
+The main motivation to make this project was to learn in practice a bit more about jetpack compose to in a short future use it on my own projects.
 
 
 ## :camera_flash: Screenshots
